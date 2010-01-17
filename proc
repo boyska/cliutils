@@ -1,0 +1,8 @@
+#!/bin/sh
+#pgrep $1 #&> /dev/null
+pid=$(pgrep -f -d, $1)
+if [ $pid ]; then
+  ps -fp `pgrep -f -d, $1`
+else
+  echo "No process found"
+fi

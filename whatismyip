@@ -1,0 +1,5 @@
+#!/bin/sh
+whatismyip() {
+  ip=$(curl -s http://whatismyip.org/)
+  echo $ip
+}

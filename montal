@@ -1,0 +1,25 @@
+#!/bin/sh
+
+montal () {
+  readlink /dev/disk/by-label/"$1" &> /dev/null
+  if [ ! $? ]; then #non existing label
+	echo "No such device"
+	return 0
+  fi
+  echo pmount $(readlink -f /dev/disk/by-label/$1) $1
+  pmount $(readlink -f /dev/disk/by-label/$1) $1
+}
+
+get_fs_label() {
+  for dev in /dev/disk/by-label/*; do
+	if [ $(readlink -f $dev) == "$1" ]; then
+	  echo `basename $dev`
+	  return
+	fi
+  done
+}
+
+monta() {
+  pmount $1 `get_fs_label $1`
+}
+

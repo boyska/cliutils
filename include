@@ -1,0 +1,6 @@
+#!/bin/sh
+for i in *.sh; do
+  if [ ! -z "$i" ]; then
+	. "$i"
+  fi
+done
