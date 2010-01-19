@@ -1,0 +1,22 @@
+#!/bin/sh
+if [ -z "$1" ]; then
+  echo "Argument required"
+  exit 1
+fi
+filename=$(mktemp)
+trap "rm $filename" 0
+wget -q "$1" -O "$filename"
+sum=$(md5sum $filename)
+while true; do
+  wget -q "$1" -O "$filename"
+  new_sum=$(md5sum $filename)
+  if [ "$new_sum" != "$sum" ]; then
+	echo "Page updated!"
+	zenity --info --text="pagina aggiornata"
+	notify-send "Pagina aggiornata" "$1"
+	rm $filename
+	exit 0
+  fi
+  sleep 1m
+done
+
