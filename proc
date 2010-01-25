@@ -1,8 +1,8 @@
 #!/bin/sh
 #pgrep $1 #&> /dev/null
-pid=$(pgrep -f -d, $1)
-if [ $pid ]; then
-  ps -fp `pgrep -f -d, $1`
+pid=$(pgrep -f -d, $1|sed -e "s/,$$,/,/") #excluding this process
+if [ "$pid" ]; then
+  ps -fp $pid
 else
   echo "No process found"
 fi
